@@ -36,6 +36,9 @@ void quicksort_recursion(int array[], int low, int high, size_t s);
 void quick_sort(int *array, size_t size);
 void swap(int *x, int *y);
 int partition(int array[], int low, int high, size_t print);
+void quick_sort_hoare(int *array, size_t size);
+
+void quick_sorter(int *array, int lo, int hi, int size);
 
 /* Shell sort */
 void shell_sorting_function(int *array, int size, int gap);

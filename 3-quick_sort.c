@@ -1,74 +1,86 @@
 #include "sort.h"
 
-
 /**
- * quick_sort - sorts an array of integers in ascending order using
- * @array: the list of values to be sorted
- * @size:  size of the list
-*/
+ * quick_sort - sorts @array by calling quick_sorter
+ * @array: array to be sorted
+ * @size: size of the array
+ *
+ * Return: void
+ */
 void quick_sort(int *array, size_t size)
 {
-	if (size == 0 || size == 1)
-		return;
-	quicksort_recursion(array, 0, size - 1, size);
+	quick_sorter(array, 0, (int) size - 1, (int) size);
 }
 
 /**
- * swap - swap two values
- * @x: first value
- * @y: second value
+ * quick_sorter - sorts @array using quick sort's Lomuto partition scheme and
+ * prints the array each time the pivot is swapped with the end item
+ * @array: array to be sorted
+ * @lo: lower boundary
+ * @hi: higher boundary
+ * @size: size of the array, passed to partition to print the array
+ *
+ * Return: void
  */
-
-void swap(int *x, int *y)
+void quick_sorter(int *array, int lo, int hi, int size)
 {
-	int tmp = *x;
-	*x = *y;
-	 *y = tmp;
+	int pivot;
+
+	if (lo >= hi || lo < 0)
+		return;
+
+	pivot = partition(array, lo, hi, size);
+
+	quick_sorter(array, lo, pivot - 1, size);
+	quick_sorter(array, pivot + 1, hi, size);
 }
 
 /**
- * quicksort_recursion - apply portion of the quicksort algorithm
- * @array: list to work on
- * @low: start point
- * @high: max at which we can traverse
- * @s: for displayint
-*/
-
-void quicksort_recursion(int array[], int low, int high, size_t s)
+ * partition - partitions @array between @lo and @hi and finds the center
+ * sport for @pivot by making sure the elements beneath and beyond @i are
+ * smaller and larger (or equal to) @pivot, between @lo and @hi
+ * @array: array to be sorted
+ * @lo: lower boundary
+ * @hi: higher boundary
+ * @size: size of the array, to print when @pivot has found its right place
+ *
+ * Return: the new position of the pivot
+ */
+int partition(int *array, int lo, int hi, size_t size)
 {
+	int pivot = array[hi];  /* Last element is chosen as the pivot */
+	int i = lo - 1;  /* Temporary pivot index, used to find its final index */
+	int j;  /* To scroll through the array */
+	int c; /* To swap array elements */
 
-	if (low < high)
+	for (j = lo; j < hi; j++)
 	{
-		int pivot_index = partition(array, low, high, s);
-
-		quicksort_recursion(array, low, pivot_index - 1, s);
-		quicksort_recursion(array, pivot_index + 1, high, s);
-	}
-}
-/**
- * partition - partitions the array pivot value and returns
- * @array: list for the values
- * @low: starting point
- * @high: -
- * Return: the index
-* @s: for displayint
-*/
-int partition(int array[], int low, int high, size_t s)
-{
-	int pivot_value = array[high];
-	int i = low, j;
-
-
-	for (j = low; j < high; j++)
-	{
-		if (array[j] <= pivot_value)
+		if (array[j] <= pivot)
 		{
-			swap(&array[i], &array[j]);
-			i++;
-		}
 
+			i += 1; /* Move the temporary index forward */
+
+			/**
+			 * Swap the current element with the element at the temporary
+			 * pivot index
+			 */
+			c = array[i];
+			array[i] = array[j];
+			array[j] = c;
+
+		}
 	}
-	swap(&array[i], &array[high]);
-	print_array(array, s);
+
+	/**
+	 * Move pivot to the correct position, between the smaller and larger
+	 * elements
+	 */
+	i += 1;
+	c = array[hi];
+	array[hi] = array[i];
+	array[i] = c;
+	print_array(array, size);
+
 	return (i);
+
 }
