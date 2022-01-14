@@ -16,6 +16,6 @@ This project is about:
 
 ## Authors
 
-> * Patrick Annang
+> * Sharif Didier Habimana
 
-> * Joseph Boateng
+> * 
